@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  dev:
+    image: donationpage:latest
+    hostname: donationpage-dev
+    env_file: ops/env.dev.sh
+    volumes:
+      - .:/app
+    build:
+        context: .
+        dockerfile: ops/Dockerfile
+        args:
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    command: ["tail", "-f", "/dev/null"]
+
+  web:
+    image: donationpage:latest
+    hostname: donationpage-web
+    env_file: ops/env.dev.sh
+    ports:
+        - "8000:8000"
+    volumes:
+      - .:/app
